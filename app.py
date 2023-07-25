@@ -3,6 +3,7 @@ import streamlit as st
 import numpy as np
 import warnings
 from io import BytesIO
+import base64
 warnings.filterwarnings("ignore")
 
 def cleaned_data(df):
@@ -60,6 +61,19 @@ def cleaned_data(df):
 
     return df
 
+def to_excel(df):
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='Sheet1')
+    writer.save()
+    return output.getvalue()
+
+def get_table_download_link(df, filename='data.xlsx', link_text='Download Excel file'):
+    xls_data = to_excel(df)
+    b64 = base64.b64encode(xls_data).decode()  # some strings <-> bytes conversions necessary here
+    href = f'<a href="data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,{b64}" download="{filename}">{link_text}</a>'
+    return href
+
 
 def main():
     # Set the title of the app
@@ -74,19 +88,21 @@ def main():
         df = cleaned_data(df)
         st.write(df)
 
-        # Convert DataFrame to Excel and write it to BytesIO object
-        output = BytesIO()
-        with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            df.to_excel(writer, sheet_name='Sheet1', index=False)
-        output.seek(0)
+        # # Convert DataFrame to Excel and write it to BytesIO object
+        # output = BytesIO()
+        # with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        #     df.to_excel(writer, sheet_name='Sheet1', index=False)
+        # output.seek(0)
         
-        # Create download button for Excel file
-        st.download_button(
-            label="Download data as Excel",
-            data=output,
-            file_name="data.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        )
+        # # Create download button for Excel file
+        # st.download_button(
+        #     label="Download data as Excel",
+        #     data=output,
+        #     file_name="data.xlsx",
+        #     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        # )
+        # Create download link for the Excel file
+        st.markdown(get_table_download_link(df), unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
