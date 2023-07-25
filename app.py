@@ -4,7 +4,6 @@ import numpy as np
 import warnings
 from io import BytesIO
 import base64
-import xlsxwriter
 warnings.filterwarnings("ignore")
 
 def cleaned_data(df):
