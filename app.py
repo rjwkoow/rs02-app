@@ -118,7 +118,7 @@ def main():
             int_columns = ['LOS','Leadtime']
             float_columns = ['Rate','All Revenue']
             time_columns = ['Time']
-            apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns):
+            apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns)
         output.seek(0)
         
         # Create download button for Excel file
