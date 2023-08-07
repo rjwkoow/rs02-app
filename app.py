@@ -117,7 +117,7 @@ def main():
             df.to_excel(writer, sheet_name='Sheet1', index=False)
 
             date_columns = ['G','H','R']
-            int_columns = ['J','T','U']
+            int_columns = ['T','U']
             float_columns = ['L','M']
             time_columns = ['Q']
             apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns)
