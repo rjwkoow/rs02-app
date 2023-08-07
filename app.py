@@ -97,11 +97,14 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
 
     # Apply float formatting to specified float columns
     for col in float_columns:
-       for row, cell in enumerate(worksheet[col]):
+        for row, cell in enumerate(worksheet[col]):
             if row == 0:  # Skip the header row
                 continue
             if cell.value is not None and cell.value != '':
-                cell.value = float(cell.value)
+                value = cell.value.replace(',', '')  # Remove commas
+                cell.value = float(value)
+
+
 
 
 def main():
