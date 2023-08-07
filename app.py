@@ -86,14 +86,14 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
 
     # Apply integer formatting to specified integer columns
     for col in int_columns:
-    for row, cell in enumerate(worksheet[col]):
-        if row == 0:  # Skip the header row
-            continue
-        if cell.value is not None and cell.value != '':
-            value = cell.value
-            if ' days' in value:
-                value = value.split()[0]  # Extract the number of days
-            cell.value = int(value)
+        for row, cell in enumerate(worksheet[col]):
+            if row == 0:  # Skip the header row
+                continue
+            if cell.value is not None and cell.value != '':
+                value = cell.value
+                if ' days' in value:
+                    value = value.split()[0]  # Extract the number of days
+                cell.value = int(value)
 
     # Apply float formatting to specified float columns
     for col in float_columns:
