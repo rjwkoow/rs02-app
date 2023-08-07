@@ -70,8 +70,8 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
     # Define custom styles for integers and floats
     date_style = NamedStyle(name='date_style', number_format='DD/MM/YYYY')
     time_style = NamedStyle(name='time_style', number_format='HH:MM')
-    int_style = NamedStyle(name='int_style', number_format='0') # Integer formatting
-    float_style = NamedStyle(name='float_style', number_format='0.00') # Float formatting with 2 decimal places
+    # int_style = NamedStyle(name='int_style', number_format='0') # Integer formatting
+    # float_style = NamedStyle(name='float_style', number_format='0.00') # Float formatting with 2 decimal places
 
 
     # Apply time formatting to specified time columns
@@ -87,14 +87,16 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
     # Apply integer formatting to specified integer columns
     for col in int_columns:
         for cell in worksheet[col]:
-            cell.style = int_style
+            if cell.value is not None and cell.value != '':
+                cell.value = int(cell.value)
+
 
     # Apply float formatting to specified float columns
     for col in float_columns:
         for cell in worksheet[col]:
-            cell.style = float_style
+            if cell.value is not None and cell.value != '':
+                cell.value = float(cell.value)
 
-            
 
 def main():
     # Set the title of the app
