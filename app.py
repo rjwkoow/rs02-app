@@ -63,7 +63,7 @@ def cleaned_data(df):
     return df
 
 
-def apply_excel_formatting(writer,df):
+def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns):
     workbook = writer.book
     worksheet = writer.sheets['Sheet1']
 
@@ -73,10 +73,6 @@ def apply_excel_formatting(writer,df):
     int_style = NamedStyle(name='int_style', number_format='0') # Integer formatting
     float_style = NamedStyle(name='float_style', number_format='0.00') # Float formatting with 2 decimal places
 
-    date_columns = {df['Arrival'],df['Departure'],df['Booking date']}
-    int_columns = {df['LOS'],df['Leadtime']}
-    float_columns = {df['Rate'],df['All Revenue']}
-    time_columns = {df['Time']}
 
     # Apply time formatting to specified time columns
     for col in time_columns:
@@ -97,6 +93,7 @@ def apply_excel_formatting(writer,df):
     for col in float_columns:
         for cell in worksheet[col]:
             cell.style = float_style
+
             
 
 def main():
@@ -116,7 +113,12 @@ def main():
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df.to_excel(writer, sheet_name='Sheet1', index=False)
-            apply_excel_formatting(writer,df)
+
+            date_columns = ['Arrival','Departure','Booking date']
+            int_columns = ['LOS','Leadtime']
+            float_columns = ['Rate','All Revenue']
+            time_columns = ['Time']
+            apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns):
         output.seek(0)
         
         # Create download button for Excel file
