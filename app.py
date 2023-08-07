@@ -87,19 +87,19 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
     # Apply integer formatting to specified integer columns
     for col in int_columns:
         for row, cell in enumerate(worksheet[col]):
-        if row == 0:  # Skip the header row
-            continue
-        if cell.value is not None and cell.value != '':
-            cell.value = int(cell.value)
+            if row == 0:  # Skip the header row
+                continue
+            if cell.value is not None and cell.value != '':
+                cell.value = int(cell.value)
 
 
     # Apply float formatting to specified float columns
     for col in float_columns:
        for row, cell in enumerate(worksheet[col]):
-        if row == 0:  # Skip the header row
-            continue
-        if cell.value is not None and cell.value != '':
-            cell.value = float(cell.value)
+            if row == 0:  # Skip the header row
+                continue
+            if cell.value is not None and cell.value != '':
+                cell.value = float(cell.value)
 
 
 def main():
