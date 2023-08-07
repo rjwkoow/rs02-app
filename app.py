@@ -3,6 +3,7 @@ import streamlit as st
 import numpy as np
 import warnings
 from io import BytesIO
+from openpyxl.styles import NamedStyle
 import base64
 warnings.filterwarnings("ignore")
 
@@ -62,6 +63,42 @@ def cleaned_data(df):
     return df
 
 
+def apply_excel_formatting(writer,df):
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+
+    # Define custom styles for integers and floats
+    date_style = NamedStyle(name='date_style', number_format='DD/MM/YYYY')
+    time_style = NamedStyle(name='time_style', number_format='HH:MM')
+    int_style = NamedStyle(name='int_style', number_format='0') # Integer formatting
+    float_style = NamedStyle(name='float_style', number_format='0.00') # Float formatting with 2 decimal places
+
+    date_columns = {df['Arrival'],df['Departure'],df['Booking date']}
+    int_columns = {df['LOS'],df['Leadtime']}
+    float_columns = {df['Rate'],df['All Revenue']}
+    time_columns = {df['Time']}
+
+    # Apply time formatting to specified time columns
+    for col in time_columns:
+        for cell in worksheet[col]:
+            cell.style = time_style
+
+    # Apply date formatting to specified date columns
+    for col in date_columns:
+        for cell in worksheet[col]:
+            cell.style = date_style
+
+    # Apply integer formatting to specified integer columns
+    for col in int_columns:
+        for cell in worksheet[col]:
+            cell.style = int_style
+
+    # Apply float formatting to specified float columns
+    for col in float_columns:
+        for cell in worksheet[col]:
+            cell.style = float_style
+            
+
 def main():
     # Set the title of the app
     st.title("Atmind Group")
@@ -79,6 +116,7 @@ def main():
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
             df.to_excel(writer, sheet_name='Sheet1', index=False)
+            apply_excel_formatting(writer,df)
         output.seek(0)
         
         # Create download button for Excel file
