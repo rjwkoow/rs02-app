@@ -76,12 +76,17 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
 
     # Apply time formatting to specified time columns
     for col in time_columns:
-        for cell in worksheet[col]:
+        for row, cell in enumerate(worksheet[col]):
+            if row == 0:  # Skip the header row
+                continue
             cell.style = time_style
+
 
     # Apply date formatting to specified date columns
     for col in date_columns:
-        for cell in worksheet[col]:
+        for row, cell in enumerate(worksheet[col]):
+            if row == 0:  # Skip the header row
+                continue
             cell.style = date_style
 
     # Apply integer formatting to specified integer columns
@@ -126,7 +131,7 @@ def main():
             df.to_excel(writer, sheet_name='Sheet1', index=False)
 
             date_columns = ['G','H','R']
-            int_columns = ['T','U']
+            int_columns = ['D','J','T','U']
             float_columns = ['L','M']
             time_columns = ['Q']
             apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns)
