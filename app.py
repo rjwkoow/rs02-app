@@ -61,7 +61,6 @@ def cleaned_data(df):
     df = df.drop(df.index[-1])
 
     df['#Nts.'] = df['#Nts.'].astype(float)
-    df['RSVN#'] = df['RSVN#'].astype(str)
 
     return df
 
