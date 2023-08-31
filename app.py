@@ -60,6 +60,8 @@ def cleaned_data(df):
     #drop the last row
     df = df.drop(df.index[-1])
 
+    df['#Nts.'] = df['#Nts.'].astype(float)
+
     return df
 
 
@@ -95,7 +97,7 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
             if row == 0:  # Skip the header row
                 continue
             if cell.value is not None and cell.value != '':
-                value = cell.value
+                value = str(cell.value)  # Convert value to string
                 if ' days' in value:
                     value = value.split()[0]  # Extract the number of days
                 value = value.replace(',', '')  # Remove commas from the value
