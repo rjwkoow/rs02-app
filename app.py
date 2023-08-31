@@ -65,7 +65,7 @@ def cleaned_data(df):
     return df
 
 
-def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns,string_columns):
+def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns):
     workbook = writer.book
     worksheet = writer.sheets['Sheet1']
 
@@ -116,14 +116,6 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
                 value = cell.value.replace(',', '')  # Remove commas
                 cell.value = float(value)
 
-    # Apply string formatting to specified string columns
-    for col in string_columns:
-        for row, cell in enumerate(worksheet[col]):
-            if row == 0:  # Skip the header row
-                continue
-            if cell.value is not None:
-                cell.value = str(cell.value)
-
 
 def main():
     # Set the title of the app
@@ -147,8 +139,7 @@ def main():
             int_columns = ['D','J','T','U']
             float_columns = ['L','M']
             time_columns = ['Q']
-            string_columns = ['A']
-            apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns,string_columns)
+            apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns)
         output.seek(0)
         
         # Create download button for Excel file
