@@ -101,7 +101,11 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
                 if ' days' in value:
                     value = value.split()[0]  # Extract the number of days
                 value = value.replace(',', '')  # Remove commas from the value
-                cell.value = int(value)
+                                
+                if '.' in value:
+                    cell.value = int(float(value))
+                else:
+                    cell.value = int(value)
 
     # Apply float formatting to specified float columns
     for col in float_columns:
