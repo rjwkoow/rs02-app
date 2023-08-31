@@ -117,7 +117,12 @@ def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_co
                 value = cell.value.replace(',', '')  # Remove commas
                 cell.value = float(value)
 
-
+    # Apply string formatting to specified string columns
+    for col in string_columns:
+        for row, cell in enumerate(worksheet[col]):
+            if row == 0:  # Skip the header row
+                continue
+            cell.style = string_style
 
 
 def main():
@@ -142,14 +147,15 @@ def main():
             int_columns = ['D','J','T','U']
             float_columns = ['L','M']
             time_columns = ['Q']
-            apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns)
+            string_columns = ['A']
+            apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns,string_columns)
         output.seek(0)
         
         # Create download button for Excel file
         st.download_button(
             label="Download data as Excel",
             data=output,
-            file_name="data.xlsx",
+            file_name="cleaned_rs02.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         )
        
