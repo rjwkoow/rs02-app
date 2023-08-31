@@ -66,7 +66,7 @@ def cleaned_data(df):
     return df
 
 
-def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns):
+def apply_excel_formatting(writer,date_columns,int_columns,float_columns,time_columns,string_columns):
     workbook = writer.book
     worksheet = writer.sheets['Sheet1']
 
